@@ -57,7 +57,7 @@
 {
     _scrollView = scrollView;
     
-    _scrollView.delegate = self;
+    [_scrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
 }
 
 // Only override drawRect: if you perform custom drawing.
@@ -106,51 +106,54 @@
     [self updateGifAndStatusFrame];
 }
 
-#pragma mark - UIScrollViewDelegate
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+#pragma mark - _scrollView的contentOffset变化检测相当于scrollViewDidScroll
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
 {
+    
+    if ([@"contentOffset"isEqualToString:keyPath]) {
 
-    if (_scrollView.isDragging) {//拖动中
-        
-        if (self.state == lhRefreshStateNormal && _scrollView.contentOffset.y < -refreshHeih) {
-            // 转为即将刷新状态
-            self.state = lhRefreshStateWillRefreshing;
+        if (_scrollView.isDragging) {//拖动中
             
-        }
-        else if (self.state == lhRefreshStateWillRefreshing && _scrollView.contentOffset.y >= -refreshHeih) {
-            // 转为普通状态
-            self.isRefreshing = 2;
-            self.state = lhRefreshStateNormal;
+            if (self.state == lhRefreshStateNormal && _scrollView.contentOffset.y < -refreshHeih) {
+                // 转为即将刷新状态
+                self.state = lhRefreshStateWillRefreshing;
+                
+            }
+            else if (self.state == lhRefreshStateWillRefreshing && _scrollView.contentOffset.y >= -refreshHeih) {
+                // 转为普通状态
+                self.isRefreshing = 2;
+                self.state = lhRefreshStateNormal;
+                
+            }
+            else if(self.state == lhRefreshStateRefreshing && _scrollView.contentOffset.y >= -refreshHeih){
+                // 转为普通状态
+                self.isRefreshing = 2;
+                self.state = lhRefreshStateNormal;
+                
+            }
+        } else if ((self.state == lhRefreshStateWillRefreshing) && (self.isRefreshing != 1)) {// 即将刷新 && 手松开
             
+            [self refresh];
         }
-        else if(self.state == lhRefreshStateRefreshing && _scrollView.contentOffset.y >= -refreshHeih){
-            // 转为普通状态
-            self.isRefreshing = 2;
-            self.state = lhRefreshStateNormal;
+        
+        if (-_scrollView.contentOffset.y <= 0) {
+            UIEdgeInsets inset = _scrollView.contentInset;
+            inset.top = 0;
+            _scrollView.contentInset = inset;
+            self.isRefreshing = 0;
             
+            self.heih = 0;
         }
-    } else if ((self.state == lhRefreshStateWillRefreshing) && (self.isRefreshing != 1)) {// 即将刷新 && 手松开
+        else if (-_scrollView.contentOffset.y > totalHeih) {
+            self.heih = totalHeih;
+        }
+        else{
+            self.heih = -_scrollView.contentOffset.y;
+        }
+        self.frame = CGRectMake(0, 0, self.bounds.size.width, self.heih);
         
-        [self refresh];
+        [self setNeedsDisplay];
     }
-    
-    if (-_scrollView.contentOffset.y <= 0) {
-        UIEdgeInsets inset = _scrollView.contentInset;
-        inset.top = 0;
-        _scrollView.contentInset = inset;
-        self.isRefreshing = 0;
-        
-        self.heih = 0;
-    }
-    else if (-_scrollView.contentOffset.y > totalHeih) {
-        self.heih = totalHeih;
-    }
-    else{
-        self.heih = -_scrollView.contentOffset.y;
-    }
-    self.frame = CGRectMake(0, 0, self.bounds.size.width, self.heih);
-    
-    [self setNeedsDisplay];
 }
 
 //刷新，回调
@@ -162,13 +165,13 @@
     
     _sLabel.text = @"正在刷新";
     
+    //设置滚动位置
+    _scrollView.contentOffset = CGPointMake(0, -self.refreshOriginY);
     [UIView animateWithDuration:0.2 animations:^{
         UIEdgeInsets inset = _scrollView.contentInset;
         inset.top = self.refreshOriginY;
         _scrollView.contentInset = inset;
         
-        // 2.设置滚动位置
-        _scrollView.contentOffset = CGPointMake(0, -self.refreshOriginY);
     }];
     
     // 回调
@@ -238,7 +241,7 @@
 
         _scrollView.contentOffset = CGPointMake(0, -self.heih>0?0:-self.heih);
     }completion:^(BOOL finished) {
-        if (self.heih >= 0) {
+        if (self.heih > 0) {
             [self endRefresh1];
         }
         else{

@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "8183EFF003B5F95D41612C37161832894C2D5FE8",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "16603EB1FE19448030128EC66461F151F703C17A" : 0,
+    "8183EFF003B5F95D41612C37161832894C2D5FE8" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "F13AB545-A28F-40BD-82E0-9590DF8C37AA",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "16603EB1FE19448030128EC66461F151F703C17A" : "",
+    "8183EFF003B5F95D41612C37161832894C2D5FE8" : "LHMineRefresh\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "LHRefresh",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "LHRefresh.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/yutiandesan\/starstar.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "16603EB1FE19448030128EC66461F151F703C17A"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/yutiandesan\/LHMineRefresh.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8183EFF003B5F95D41612C37161832894C2D5FE8"
+    }
+  ]
+}
