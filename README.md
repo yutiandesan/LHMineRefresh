@@ -16,3 +16,6 @@ The running result:
 
 
 referred to:MJRefresh
+
+
+blog Add:http://blog.sina.com.cn/s/blog_14e49abae0102wfvl.html
