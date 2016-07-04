@@ -267,4 +267,14 @@
     
 }
 
+- (void)willMoveToSuperview:(UIView *)newSuperview
+{
+    [super willMoveToSuperview:newSuperview];
+    
+    if (_scrollView) {
+        [_scrollView removeObserver:self forKeyPath:@"contentOffset"];
+    }
+    
+}
+
 @end
