@@ -6,6 +6,8 @@ use:
 [refreshTableView headerBeginRefreshing];//手动调用下拉刷新
 
 
+notice:No use it in UITableViewController,because self.tableView.superView is null.
+
 
 The running result:
 
