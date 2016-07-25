@@ -143,6 +143,9 @@
             self.isRefreshing = 0;
             
             self.heih = 0;
+            
+            _refreshImgView.hidden = YES;
+            _sLabel.hidden = YES;
         }
         else if (-_scrollView.contentOffset.y > totalHeih) {
             self.heih = totalHeih;
